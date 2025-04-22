@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tymfe
+spec:
+  selector:
+    matchLabels:
+      app: tymfe
+  template:
+    metadata:
+      labels:
+        app: tymfe
+    spec:
+      containers:
+      - name: tymfe
+        image: us-central1-docker.pkg.dev/devops-353009/devops-docker/raj_tym_fe:main
+        imagePullPolicy: Always
+        env:
+          - name: VITE_API_URL
+            value: https://tym.rajarshi.agileguru.org
+        ports:
+        - containerPort: 5173
+      - name: tymbe
+        image: us-central1-docker.pkg.dev/devops-353009/devops-docker/raj_tym_api:main
+        imagePullPolicy: Always
+        env:
+          - name: SPRING_DATASOURCE_URL
+            value: jdbc:postgresql://0.0.0.0:00/tym_db
+          - name: SPRING_DATASOURCE_USERNAME
+            value: user_tym
+          - name: SPRING_DATASOURCE_PASSWORD
+            value: my_pass
+          - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+            value: create-drop
+        ports:
+        - containerPort: 8080

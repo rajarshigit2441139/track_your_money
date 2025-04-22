@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tym-ingress
+  labels:
+    kcert.dev/ingress: "managed"
+spec:
+  ingressClassName: "nginx"
+  tls:
+    - hosts:
+      - tym.rajarshi.agileguru.org
+      secretName: tym-rajarshi-agileguru-org
+  rules:
+  - host: tym.rajarshi.agileguru.org
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: tymfe
+            port: 
+              number: 5173
+      - pathType: Prefix
+        path: "/api"
+        backend:
+          service:
+            name: tymfe
+            port: 
+              number: 8080

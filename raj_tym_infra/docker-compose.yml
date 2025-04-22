@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ../raj_tym_fe
+    container_name: raj-tym-fe-compose-container
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8080
+    depends_on:
+      - api
+    networks:
+      - raj-tym-network
+
+  api:
+    build: ../raj_tym_api
+    container_name: raj-tym-api-compose-container
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/track_your_money
+      - SPRING_DATASOURCE_USERNAME=tym_user
+      - SPRING_DATASOURCE_PASSWORD=app_password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+    depends_on:
+      - postgres
+    networks:
+      - raj-tym-network
+
+  postgres:
+    image: postgres:16
+    container_name: raj-tym-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=track_your_money
+      - POSTGRES_USER=tym_user
+      - POSTGRES_PASSWORD=app_password
+    # volumes:
+    #   - postgres_data:/var/lib/postgresql/data
+    networks:
+      - raj-tym-network
+
+volumes:
+  postgres_data:
+    name: raj-tym-postgres-data
+
+networks:
+  raj-tym-network:
+    name: raj-tym-network 

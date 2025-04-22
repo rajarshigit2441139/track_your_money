@@ -1,0 +1,22 @@
+
+pipeline {
+  agent {
+    kubernetes {
+        // label 'docker-build-pod'
+        yamlFile 'podtemplate/jenkinstemplate.yaml'
+        idleMinutes 5
+    }
+  }
+  stages {
+        stage('Build and upload artifact') {
+            steps {
+                container('alacrity') {
+                    sh 'gcloud auth configure-docker us-central1-docker.pkg.dev'
+                    sh "docker build -t us-central1-docker.pkg.dev/devops-353009/devops-docker/raj_tym_fe:${env.GIT_BRANCH} ."
+                    sh "docker push us-central1-docker.pkg.dev/devops-353009/devops-docker/raj_tym_fe:${env.GIT_BRANCH}"
+                }
+            }
+        }
+
+    }
+}

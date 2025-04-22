@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tymfe
+spec:
+  selector:
+    app: tymfe
+  ports:
+  - port: 5173
+    targetPort: 5173
+    name: tymfe
+  - port: 8080
+    targetPort: 8080
+    name: tymbe
