@@ -70,4 +70,4 @@ We don't support custom domains (yet). If you want to deploy your project under 
 
 Frontend UI:
 
-![Frontend:](/images/Screenshot 2025-04-16 at 11.48.49 PM.png)
+![Frontend:](/images/FrontendScreenshot.png)
